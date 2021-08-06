@@ -1,39 +1,47 @@
 [![Latest Stable Version]](https://packagist.org/packages/wikimedia/update-history) [![License]](https://packagist.org/packages/wikimedia/update-history)
 
-UpdateHistory
+wikimedia/update-history
 =====================
 
-A simple tool to update HISTORY.md files.
-
-FILL THIS IN
+A simple tool to update HISTORY.md files when making a library release.
 
 Additional documentation about this library can be found on
 [mediawiki.org](https://www.mediawiki.org/wiki/UpdateHistory).
 
-
 Usage
 -----
 
-```php
-  // FILL THIS IN
+To make a release:
+
+## Step 1
+```bash
+bin/update-history [patch|minor|major]
 ```
 
+This increments the version number for a patch release (or, if you
+specify, for a minor or major release instead) and updates the
+HISTORY.md with the new version number and the current date.
 
-Running tests
--------------
-
+## Step 2
+```bash
+git add HISTORY.md
+git commit -m "Release <My Package> <My Version>"
 ```
-composer install
-composer test
+This step will be automated in the future.
+
+## Step 3
+```bash
+bin/update-history
 ```
+This adds a new placeholder "x.x.x (not yet released)" section to
+the HISTORY.md.
 
-History
--------
-
-UPDATE THIS SECTION
-This library was first introduced in MediaWiki 1.27 ([eb46307b00](https://gerrit.wikimedia.org/r/c/mediawiki/core/+/264403/)). It was
-split out of the MediaWiki codebase and published as an independent library
-during the MediaWiki 1.37 development cycle.
+## Step 4
+```bash
+git add HISTORY.md
+git commit -m "Bump HISTORY.md after release"
+```
+This step will be automated in the future.
 
 
 ---

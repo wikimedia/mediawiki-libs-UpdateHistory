@@ -1,5 +1,5 @@
 # Release History
 
-## 1.0.0
+## update-history 1.0.0
 
 * Initial release.

@@ -25,7 +25,8 @@ HISTORY.md with the new version number and the current date.
 ## Step 2
 ```bash
 git add HISTORY.md
-git commit -m "Release <My Package> <My Version>"
+git commit -m "Release <My Package> <VERSION>"
+git tag <VERSION>
 ```
 This step will be automated in the future.
 
@@ -43,6 +44,20 @@ git commit -m "Bump HISTORY.md after release"
 ```
 This step will be automated in the future.
 
+## Step 5 (optional)
+Push these commits to your code review system.
+```bash
+git review
+```
+When they are merged you may have to verify that the tag created above
+still corresponds to the final merged commit, and if not:
+```bash
+git tag -f <new git hash> <VERSION>
+```
+And finally, push the new tag:
+```bash
+git push origin <VERSION>
+```
 
 ---
 [Latest Stable Version]: https://poser.pugx.org/wikimedia/update-history/v/stable.svg

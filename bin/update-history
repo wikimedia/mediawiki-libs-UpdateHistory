@@ -2,15 +2,18 @@
 <?php declare(strict_types=1);
 
 if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
-    require __DIR__ . '/../vendor/autoload.php';
-} elseif (file_exists(__DIR__ . '/../../../autoload.php')) {
-    require __DIR__ . '/../../../autoload.php';
+    # Running from own package
+    $root = __DIR__ . '/../';
+} elseif (file_exists(__DIR__ . '/../../../../vendor/autoload.php')) {
+    # Running from vendor/wikimedia/update-history
+    $root = __DIR__ . '/../../../../';
 } else {
-    echo 'Project dependencies need to be installed using composer.';
+    error_log('Project dependencies need to be installed using composer.');
     exit(1);
 }
+require "$root/vendor/autoload.php";
 
 global $argv;
 
 $which = $argv[1] ?? 'patch';
-\Wikimedia\UpdateHistory\UpdateHistory::main( $which );
+\Wikimedia\UpdateHistory\UpdateHistory::main( $root, $which );

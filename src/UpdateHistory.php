@@ -9,11 +9,12 @@ namespace Wikimedia\UpdateHistory;
 class UpdateHistory {
 	/**
 	 * Main entry point.
+	 * @param string $root Package root (where the HISTORY.md file is found)
 	 * @param string $which One of 'patch', 'minor', or 'major'.
 	 * @return int Exit code: zero on success, non-zero on failure.
 	 */
-	public static function main( string $which = 'patch' ): int {
-		$changeLogPath = __DIR__ . '/../HISTORY.md';
+	public static function main( string $root, string $which = 'patch' ): int {
+		$changeLogPath = "$root/HISTORY.md";
 		$changeLog = file_get_contents( $changeLogPath );
 		$changeLog = preg_replace_callback(
 			'/^(#+)( \S+)? (x\.x\.x|\d+\.\d+\.\d+)(.*)$/m',

@@ -7,4 +7,7 @@ $cfg['directory_list'] = [
 	'.phan/stubs',
 ];
 
+// Ignored to allow upgrading Phan, to be fixed later.
+$cfg['suppress_issue_types'][] = 'MediaWikiNoBaseException';
+
 return $cfg;

@@ -26,7 +26,7 @@ class UpdateHistory {
 						'/^#+' . preg_quote( $matches[2] ?? '', '/' ) .
 						' (\d+)\.(\d+)\.(\d+)/m', $changeLog, $m2
 					) !== 1 ) {
-						throw new \Exception( "Last version not found!" );
+						throw new \RuntimeException( "Last version not found!" );
 					}
 					// Do a release!
 					list( $ignore,$major,$minor,$patch ) = $m2;
@@ -37,7 +37,7 @@ class UpdateHistory {
 						$$which = intval( $$which ) + 1;
 						break;
 					default:
-						throw new \Exception( "Unknown version bump type: $which" );
+						throw new \RuntimeException( "Unknown version bump type: $which" );
 					}
 					$nextVersion = "$major.$minor.$patch";
 					$date = date( 'Y-m-d' );
@@ -49,7 +49,7 @@ class UpdateHistory {
 			},
 			$changeLog, 1, $count );
 		if ( $count != 1 ) {
-			throw new \Exception( "Changelog entry not found!" );
+			throw new \RuntimeException( "Changelog entry not found!" );
 		}
 		file_put_contents( $changeLogPath, $changeLog );
 		return 0;

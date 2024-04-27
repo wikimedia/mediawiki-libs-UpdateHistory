@@ -43,7 +43,7 @@
 			"@phan",
 			"minus-x check ."
 		],
-		"phan": "phan --allow-polyfill-parser",
+		"phan": "phan --allow-polyfill-parser --long-progress-bar",
 		"cover": "phpunit --coverage-html coverage",
 		"fix": [
 			"minus-x fix .",

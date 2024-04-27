@@ -17,7 +17,20 @@ class UpdateHistory {
 	 */
 	public static function main( string $root, string $which = 'patch' ): int {
 		$changeLogPath = "$root/HISTORY.md";
-		$changeLog = file_get_contents( $changeLogPath );
+		file_put_contents(
+			$changeLogPath,
+			self::addChangelogEntry( file_get_contents( $changeLogPath ) )
+		);
+		return 0;
+	}
+
+	/**
+	 * @param string $changeLog Contents of the HISTORY.md file
+	 * @param string $which One of 'patch', 'minor', or 'major'.
+	 *
+	 * @return array|string|string[]|null
+	 */
+	public static function addChangelogEntry( string $changeLog, string $which = 'patch' ) {
 		$changeLog = preg_replace_callback(
 			'/^(#+)( \S+)? (x\.x\.x|\d+\.\d+\.\d+)(.*)$/m',
 			static function ( $matches ) use ( $changeLog, $which ) {
@@ -25,9 +38,9 @@ class UpdateHistory {
 				if ( $matches[3] === 'x.x.x' ) {
 					// Find the previous version
 					if ( preg_match(
-						'/^#+' . preg_quote( $matches[2] ?? '', '/' ) .
-						' (\d+)\.(\d+)\.(\d+)/m', $changeLog, $m2
-					) !== 1 ) {
+							'/^#+' . preg_quote( $matches[2] ?? '', '/' ) .
+							' (\d+)\.(\d+)\.(\d+)/m', $changeLog, $m2
+						) !== 1 ) {
 						throw new RuntimeException( "Last version not found!" );
 					}
 					// Do a release!
@@ -53,7 +66,6 @@ class UpdateHistory {
 		if ( $count !== 1 ) {
 			throw new RuntimeException( "Changelog entry not found!" );
 		}
-		file_put_contents( $changeLogPath, $changeLog );
-		return 0;
+		return $changeLog;
 	}
 }

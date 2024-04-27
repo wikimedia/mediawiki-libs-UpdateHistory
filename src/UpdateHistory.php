@@ -11,9 +11,10 @@ use RuntimeException;
 class UpdateHistory {
 	/**
 	 * Main entry point.
-	 * @param string $root Package root (where the HISTORY.md file is found)
+	 * @param string $root Package root (where the HISTORY.md file is found).
 	 * @param string $which One of 'patch', 'minor', or 'major'.
 	 * @return int Exit code: zero on success, non-zero on failure.
+	 * @codeCoverageIgnore
 	 */
 	public static function main( string $root, string $which = 'patch' ): int {
 		$changeLogPath = "$root/HISTORY.md";
@@ -25,7 +26,7 @@ class UpdateHistory {
 	}
 
 	/**
-	 * @param string $changeLog Contents of the HISTORY.md file
+	 * @param string $changeLog Contents of the HISTORY.md file.
 	 * @param string $which One of 'patch', 'minor', or 'major'.
 	 *
 	 * @return array|string|string[]|null

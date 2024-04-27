@@ -47,9 +47,13 @@ class UpdateHistory {
 					[ , $major, $minor, $patch ] = $m2;
 					switch ( $which ) {
 						case 'patch':
+							$patch++;
+							break;
 						case 'minor':
+							$minor++;
+							break;
 						case 'major':
-							$$which = (int)$$which + 1;
+							$major++;
 							break;
 						default:
 							throw new RuntimeException( "Unknown version bump type: $which" );

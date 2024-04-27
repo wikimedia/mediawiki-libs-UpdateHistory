@@ -36,36 +36,36 @@ class UpdateHistory {
 			'/^(#+)( \S+)? (x\.x\.x|\d+\.\d+\.\d+)(.*)$/m',
 			static function ( $matches ) use ( $changeLog, $which ) {
 				$line = $matches[1] . ( $matches[2] ?? '' );
-				if ( $matches[3] === 'x.x.x' ) {
-					// Find the previous version
-					if ( preg_match(
-							'/^#+' . preg_quote( $matches[2] ?? '', '/' ) .
-							' (\d+)\.(\d+)\.(\d+)/m', $changeLog, $m2
-						) !== 1 ) {
-						throw new RuntimeException( "Last version not found!" );
-					}
-					// Do a release!
-					[ , $major, $minor, $patch ] = $m2;
-					switch ( $which ) {
-						case 'patch':
-							$patch++;
-							break;
-						case 'minor':
-							$minor++;
-							break;
-						case 'major':
-							$major++;
-							break;
-						default:
-							throw new RuntimeException( "Unknown version bump type: $which" );
-					}
-					$nextVersion = "$major.$minor.$patch";
-					$date = date( 'Y-m-d' );
-					return "$line $nextVersion ($date)";
+				if ( $matches[3] !== 'x.x.x' ) {
+					// Bump after a release
+					return "$line x.x.x (not yet released)\n\n" . $matches[0];
 				}
 
-				// Bump after a release
-				return "$line x.x.x (not yet released)\n\n" . $matches[0];
+				// Find the previous version
+				if ( preg_match(
+						'/^#+' . preg_quote( $matches[2] ?? '', '/' ) .
+						' (\d+)\.(\d+)\.(\d+)/m', $changeLog, $m2
+					) !== 1 ) {
+					throw new RuntimeException( "Last version not found!" );
+				}
+				// Do a release!
+				[ , $major, $minor, $patch ] = $m2;
+				switch ( $which ) {
+					case 'patch':
+						$patch++;
+						break;
+					case 'minor':
+						$minor++;
+						break;
+					case 'major':
+						$major++;
+						break;
+					default:
+						throw new RuntimeException( "Unknown version bump type: $which" );
+				}
+				$nextVersion = "$major.$minor.$patch";
+				$date = date( 'Y-m-d' );
+				return "$line $nextVersion ($date)";
 			},
 			$changeLog, 1, $count );
 		if ( $count !== 1 ) {

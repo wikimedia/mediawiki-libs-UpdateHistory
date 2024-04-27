@@ -58,11 +58,26 @@ class UpdateHistoryTest extends TestCase {
 
 	public function testBadWhich(): void {
 		$this->expectException( RuntimeException::class );
+		$this->expectExceptionMessage( "Unknown version bump type: foo" );
 		UpdateHistory::addChangelogEntry( self::NOT_YET_RELEASED, 'foo' );
+	}
+
+	public function testChangelogVersionNotFound(): void {
+		$this->expectException( RuntimeException::class );
+		$this->expectExceptionMessage( "Changelog entry not found!" );
+		UpdateHistory::addChangelogEntry( '', 'foo' );
 	}
 
 	public function testLastVersionNotFound(): void {
 		$this->expectException( RuntimeException::class );
-		UpdateHistory::addChangelogEntry( '', 'foo' );
+		$this->expectExceptionMessage( "Last version not found!" );
+		UpdateHistory::addChangelogEntry( "
+## foo-bar x.x.x
+
+* Initial release.
+
+## foo-baz x.x.x
+
+* Initial release." );
 	}
 }

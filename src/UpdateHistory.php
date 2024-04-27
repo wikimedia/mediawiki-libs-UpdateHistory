@@ -42,10 +42,12 @@ class UpdateHistory {
 				}
 
 				// Find the previous version
-				if ( preg_match(
+				if (
+					preg_match(
 						'/^#+' . preg_quote( $matches[2] ?? '', '/' ) .
 						' (\d+)\.(\d+)\.(\d+)/m', $changeLog, $m2
-					) !== 1 ) {
+					) !== 1
+				) {
 					throw new RuntimeException( "Last version not found!" );
 				}
 				// Do a release!
@@ -67,7 +69,10 @@ class UpdateHistory {
 				$date = date( 'Y-m-d' );
 				return "$line $nextVersion ($date)";
 			},
-			$changeLog, 1, $count );
+			$changeLog,
+			1,
+			$count
+		);
 		if ( $count !== 1 ) {
 			throw new RuntimeException( "Changelog entry not found!" );
 		}

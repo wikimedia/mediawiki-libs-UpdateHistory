@@ -2,6 +2,8 @@
 
 namespace Wikimedia\UpdateHistory;
 
+use RuntimeException;
+
 /**
  * Update the HISTORY.md file just before/after a release.
  * Run this with `composer update-history`.
@@ -26,30 +28,30 @@ class UpdateHistory {
 						'/^#+' . preg_quote( $matches[2] ?? '', '/' ) .
 						' (\d+)\.(\d+)\.(\d+)/m', $changeLog, $m2
 					) !== 1 ) {
-						throw new \RuntimeException( "Last version not found!" );
+						throw new RuntimeException( "Last version not found!" );
 					}
 					// Do a release!
-					list( $ignore,$major,$minor,$patch ) = $m2;
+					[ , $major, $minor, $patch ] = $m2;
 					switch ( $which ) {
-					case 'patch':
-					case 'minor':
-					case 'major':
-						$$which = intval( $$which ) + 1;
-						break;
-					default:
-						throw new \RuntimeException( "Unknown version bump type: $which" );
+						case 'patch':
+						case 'minor':
+						case 'major':
+							$$which = (int)$$which + 1;
+							break;
+						default:
+							throw new RuntimeException( "Unknown version bump type: $which" );
 					}
 					$nextVersion = "$major.$minor.$patch";
 					$date = date( 'Y-m-d' );
 					return "$line $nextVersion ($date)";
-				} else {
-					// Bump after a release
-					return "$line x.x.x (not yet released)\n\n" . $matches[0];
 				}
+
+				// Bump after a release
+				return "$line x.x.x (not yet released)\n\n" . $matches[0];
 			},
 			$changeLog, 1, $count );
-		if ( $count != 1 ) {
-			throw new \RuntimeException( "Changelog entry not found!" );
+		if ( $count !== 1 ) {
+			throw new RuntimeException( "Changelog entry not found!" );
 		}
 		file_put_contents( $changeLogPath, $changeLog );
 		return 0;

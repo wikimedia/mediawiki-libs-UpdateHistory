@@ -1,19 +1,22 @@
 #!/usr/bin/env php
-<?php declare(strict_types=1);
+<?php
+declare( strict_types = 1 );
 
-if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
-    # Running from own package
-    $root = __DIR__ . '/../';
-} elseif (file_exists(__DIR__ . '/../../../../vendor/autoload.php')) {
-    # Running from vendor/wikimedia/update-history
-    $root = __DIR__ . '/../../../../';
+use Wikimedia\UpdateHistory\UpdateHistory;
+
+if ( file_exists( __DIR__ . '/../vendor/autoload.php' ) ) {
+	# Running from own package
+	$root = __DIR__ . '/../';
+} elseif ( file_exists( __DIR__ . '/../../../../vendor/autoload.php' ) ) {
+	# Running from vendor/wikimedia/update-history
+	$root = __DIR__ . '/../../../../';
 } else {
-    error_log('Project dependencies need to be installed using composer.');
-    exit(1);
+	error_log( 'Project dependencies need to be installed using composer.' );
+	exit(1);
 }
 require "$root/vendor/autoload.php";
 
 global $argv;
 
 $which = $argv[1] ?? 'patch';
-\Wikimedia\UpdateHistory\UpdateHistory::main( $root, $which );
+UpdateHistory::main( $root, $which );

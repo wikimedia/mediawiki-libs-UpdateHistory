@@ -20,7 +20,7 @@ class UpdateHistory {
 		$changeLogPath = "$root/HISTORY.md";
 		file_put_contents(
 			$changeLogPath,
-			self::addChangelogEntry( file_get_contents( $changeLogPath ) )
+			self::addChangelogEntry( file_get_contents( $changeLogPath ), $which )
 		);
 		return 0;
 	}

@@ -59,6 +59,36 @@ And finally, push the new tag:
 git push origin <VERSION>
 ```
 
+To add this tool to a new PHP project
+-------------------------------------
+Add this as a dependency:
+```bash
+composer require --dev --fixed wikimedia/update-history
+```
+
+It's recommended to add a shortcut to the `"scripts"` section of your
+`composer.json` for the most common release action:
+```json
+{
+	...
+	"scripts": {
+		...
+		"update-history": "update-history patch",
+	}
+}
+```
+
+We also recommend adding a section to your `README.md` documenting
+the use of this tool:
+```md
+Releasing a new version
+-----------------------
+
+This package uses `wikimedia/update-history` and its conventions.
+
+See https://www.mediawiki.org/wiki/UpdateHistory for details.
+```
+
 ---
 [Latest Stable Version]: https://poser.pugx.org/wikimedia/update-history/v/stable.svg
 [License]: https://poser.pugx.org/wikimedia/update-history/license.svg

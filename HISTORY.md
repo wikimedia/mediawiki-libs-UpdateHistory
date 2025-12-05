@@ -1,6 +1,6 @@
 # Release History
 
-## update-history x.x.x (not yet released)
+## update-history 1.0.3 (2025-12-05)
 * Bug fix: CLI tool ignored the patch/minor/major argument
 * Dependency updates
 * Added tests
